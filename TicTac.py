@@ -2,17 +2,19 @@
 import os
 
 def reset():
-    choice_li = [x for x in range(1,10)]
-    return choice_li
+    choice_dict = {}
+    for i in range(1,10):
+        choice_dict[i] = i
+    return choice_dict
 
 
 def prn_brd():
     os.system('clear')
     print '*' * 9
 
-    print '* %s|%s|%s *' % (choice_li[0], choice_li[1], choice_li[2])
-    print '* %s|%s|%s *' % (choice_li[3], choice_li[4], choice_li[5])
-    print '* %s|%s|%s *' % (choice_li[6], choice_li[7], choice_li[8])
+    print '* %s|%s|%s *' % (choice_dict[1], choice_dict[2], choice_dict[3])
+    print '* %s|%s|%s *' % (choice_dict[4], choice_dict[5], choice_dict[6])
+    print '* %s|%s|%s *' % (choice_dict[7], choice_dict[8], choice_dict[9])
 
     print '*' * 9
 
@@ -43,25 +45,24 @@ def chk_input(move, sign, turn):
         return turn, 'Wrong input! Must be NUMBER 1-9! ', sign
     else:
         move = int(move)
-        move -= 1
-        if choice_li[move] == 'O' or choice_li == 'X':
+        if choice_dict[move] == 'O' or choice_dict == 'X':
             #sign = keep_sign(sign)
             return turn, 'Already taken, try again ', sign
         else:
             if sign == 'O':
-                updt_li(move, sign)
+                updt_dict(move, sign)
                 turn +=1
                 sign = 'X'
             elif sign == 'X':
-                updt_li(move, sign)
+                updt_dict(move, sign)
                 turn +=1
                 sign = 'O'
 
             return turn, '', sign
 
 
-def updt_li(move, sign):
-    choice_li[move] = sign
+def updt_dict(move, sign):
+    choice_dict[move] = sign
 
 
 def gamer_init():
@@ -77,21 +78,30 @@ def game_on(o, x):
         turn, rslt, r_sign = chk_input(raw_input('Vilken Siffra %s? ' % (plr)), sign, turn)
         prn_brd()
         print rslt, sign, turn, plr
+        print choice_dict
         if r_sign == sign:
-            plr = plr
+            pass
         else:
-            plr = x
+            if r_sign == 'X':
+                plr = x
+                sign = 'X'
+            else:
+                plr = o
+                sign = 'O'
+
 
 
 print 'Hello %s! Do you want to play a game' % (os.getenv('USER'))
 answ = raw_input('(y/n)   :')
 
 if answ == 'y':
-    choice_li = reset()
-    #print choice_li
+    choice_dict = reset()
+    #print choice_dict
     prn_brd()
     gmr_o, gmr_x = gamer_init()
     game_on(gmr_o, gmr_x)
+    print 'All the moves have been played!'
     exit()
 else:
+    print '\n\nHave a great day!!'
     go_home()
