@@ -19,7 +19,8 @@ def prn_brd():
     print '*' * 9
 
 def go_home():
-    print 'Game Over'
+    os.system('clear')
+    print 'Game Over! Thanks for playing!!'
     exit()
 
 def is_number(no):
@@ -36,16 +37,18 @@ def keep_sign(si):
 
 
 def chk_input(move, sign, turn):
+    if move == 'x' or move == 'X':
+        go_home()
+
     chk_no = is_number(move)
     if chk_no == False:
         #sign = keep_sign(sign)
         return turn, 'Wrong input! Must be a NUMBER! ', sign
     elif int(move) <= 0 or int(move) >= 10:
-        #sign = keep_sign(sign)
         return turn, 'Wrong input! Must be NUMBER 1-9! ', sign
     else:
         move = int(move)
-        if choice_dict[move] == 'O' or choice_dict == 'X':
+        if choice_dict[move] == 'O' or choice_dict[move] == 'X':
             #sign = keep_sign(sign)
             return turn, 'Already taken, try again ', sign
         else:
@@ -75,10 +78,13 @@ def game_on(o, x):
     plr = o
     sign = 'O'
     while turn < 10:
+        print 'Skriv x om du vill avsluta!'
         turn, rslt, r_sign = chk_input(raw_input('Vilken Siffra %s? ' % (plr)), sign, turn)
         prn_brd()
+
         print rslt, sign, turn, plr
         print choice_dict
+
         if r_sign == sign:
             pass
         else:
@@ -96,7 +102,6 @@ answ = raw_input('(y/n)   :')
 
 if answ == 'y':
     choice_dict = reset()
-    #print choice_dict
     prn_brd()
     gmr_o, gmr_x = gamer_init()
     game_on(gmr_o, gmr_x)
